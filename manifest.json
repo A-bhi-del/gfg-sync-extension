@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "GFG Sync",
+  "version": "1.0.0",
+
+  "permissions": [
+    "storage",
+    "identity"
+  ],
+
+  "host_permissions": [
+    "https://api.github.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+   "action": {
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.geeksforgeeks.org/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "inject.js"
+      ],
+      "matches": [
+        "https://www.geeksforgeeks.org/*"
+      ]
+    }
+  ]
+}
