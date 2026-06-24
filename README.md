@@ -1,37 +1,104 @@
-# GFG Sync
+# GFG Sync 🚀
 
 Automatically sync accepted GeeksforGeeks solutions to GitHub.
 
 ## Features
 
-- Auto detect accepted submissions
-- Extract source code
-- Extract problem statement
-- Generate README.md
-- Push solutions to GitHub
+* Automatically detects accepted GeeksforGeeks submissions.
+* Extracts complete source code from the editor.
+* Extracts problem title and statement.
+* Generates a README.md for each problem.
+* Pushes solutions directly to GitHub.
+* Updates existing solutions automatically.
+
+## Folder Structure
+
+```text
+Problem Name/
+├── README.md
+└── solution.cpp
+```
 
 ## Installation
 
-1. Download repository
-2. Open chrome://extensions
-3. Enable Developer Mode
-4. Load Unpacked
-5. Select project folder
+### 1. Download Extension
 
-## Screenshots
+Clone the repository:
 
-(Add screenshots here)
+```bash
+git clone https://github.com/YOUR_USERNAME/gfg-sync-extension.git
+```
+
+### 2. Load Extension
+
+* Open Chrome
+* Navigate to:
+
+```text
+chrome://extensions
+```
+
+* Enable **Developer Mode**
+* Click **Load Unpacked**
+* Select the extension folder
+
+### 3. Generate GitHub Personal Access Token
+
+GitHub → Settings → Developer Settings → Personal Access Tokens → Generate New Token
+
+Required Scope:
+
+```text
+repo
+```
+
+### 4. Configure Extension
+
+Click the extension icon and enter:
+
+```text
+GitHub Token
+GitHub Username
+Repository Name
+```
+
+Then click **Save Settings**.
+
+### 5. Start Syncing
+
+* Solve any GeeksforGeeks problem.
+* Submit a correct solution.
+* The extension automatically pushes:
+
+  * solution.cpp
+  * README.md
+
+to your GitHub repository.
+
+## Example Output
+
+```text
+GFG-Solutions/
+└── Rat Maze With Multiple Jumps/
+    ├── README.md
+    └── solution.cpp
+```
 
 ## Tech Stack
 
-- JavaScript
-- Chrome Extension API
-- GitHub REST API
+* JavaScript
+* Chrome Extension API
+* GitHub REST API
+* GeeksforGeeks Platform Integration
 
-## Steps
-1. Download ZIP
-2. Extract ZIP
-3. Open chrome://extensions
-4. Enable Developer Mode
-5. Click Load Unpacked
-6. Select GFG-Sync folder
+## Future Improvements
+
+* GitHub OAuth Login
+* Automatic Repository Selection
+* Language Detection
+* Difficulty & Tags Extraction
+* Chrome Web Store Release
+
+## Disclaimer
+
+This project is not affiliated with GeeksforGeeks or GitHub.
