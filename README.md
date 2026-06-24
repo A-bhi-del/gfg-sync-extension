@@ -27,3 +27,11 @@ Automatically sync accepted GeeksforGeeks solutions to GitHub.
 - JavaScript
 - Chrome Extension API
 - GitHub REST API
+
+## Steps
+1. Download ZIP
+2. Extract ZIP
+3. Open chrome://extensions
+4. Enable Developer Mode
+5. Click Load Unpacked
+6. Select GFG-Sync folder
