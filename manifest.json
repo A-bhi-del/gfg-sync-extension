@@ -5,7 +5,8 @@
 
   "permissions": [
     "storage",
-    "identity"
+    "identity",
+    "tabs"
   ],
 
   "host_permissions": [

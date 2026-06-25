@@ -177,6 +177,21 @@
 //   }
 // );
 
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.tabs.query(
+    {
+      url: "*://*.geeksforgeeks.org/*",
+    },
+    (tabs) => {
+      tabs.forEach((tab) => {
+        if (tab.id) {
+          chrome.tabs.reload(tab.id);
+        }
+      });
+    }
+  );
+});
+
 chrome.runtime.onMessage.addListener(
     async (message) => {
         if (
@@ -299,13 +314,13 @@ chrome.runtime.onMessage.addListener(
                 !solutionResponse.ok
             ) {
                 console.error(
-                    "❌ Solution Push Failed"
+                    "Solution Push Failed"
                 );
                 return;
             }
 
             console.log(
-                "✅ Solution Push Success"
+                "Solution Push Success"
             );
 
             // ==========================
@@ -408,17 +423,17 @@ See \`solution.cpp\`
                 readmeResponse.ok
             ) {
                 console.log(
-                    "✅ README Push Success"
+                    "README Push Success"
                 );
             } else {
                 console.error(
-                    "❌ README Push Failed"
+                    "README Push Failed"
                 );
             }
 
         } catch (error) {
             console.error(
-                "❌ Push Error:",
+                "Push Error:",
                 error
             );
         }

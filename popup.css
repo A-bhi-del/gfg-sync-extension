@@ -1,22 +1,108 @@
-body {
-  width: 320px;
-  padding: 15px;
-  font-family: Arial;
+/* Base Reset & Variables */
+:root {
+  --primary-color: #2f8d46; /* GFG Green */
+  --primary-hover: #1e5e2e;
+  --bg-color: #f8f9fa;
+  --text-color: #333333;
+  --text-muted: #666666;
+  --border-color: #dddddd;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-h2 {
+body {
+  width: 320px;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.container {
+  padding: 20px;
+}
+
+/* Header Section */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.header h2 {
+  font-size: 1.3rem;
+  margin: 0;
+  font-weight: 600;
+  color: #111;
+}
+
+.logo-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--primary-color);
+}
+
+/* Form Groups & Inputs */
+.form-group {
   margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: var(--text-muted);
 }
 
 input {
   width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: #ffffff;
   box-sizing: border-box;
+  transition: all 0.2s ease;
 }
 
+input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(47, 141, 70, 0.15);
+}
+
+/* Premium Button */
 button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: white;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: var(--shadow);
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  background-color: var(--primary-hover);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
 }

@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
 
-  <h2>GFG Sync</h2>
+  <div class="container">
+    <div class="header">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+      </svg>
+      <h2>GFG Sync</h2>
+    </div>
 
-  <input
-    id="token"
-    placeholder="GitHub Token"
-  />
+    <div class="form-group">
+      <label for="token">GitHub Token</label>
+      <input type="password" id="token" placeholder="ghp_xxxxxxxxxxxx" />
+    </div>
 
-  <input
-    id="owner"
-    placeholder="GitHub Username"
-  />
+    <div class="form-group">
+      <label for="owner">GitHub Username</label>
+      <input type="text" id="owner" placeholder="e.g., john_doe" />
+    </div>
 
-  <input
-    id="repo"
-    placeholder="Repository Name"
-  />
+    <div class="form-group">
+      <label for="repo">Repository Name</label>
+      <input type="text" id="repo" placeholder="e.g., leetcode-solutions" />
+    </div>
 
-  <button id="save">
-    Save Settings
-  </button>
-
-  <button id="githubLogin">
-  Login with GitHub
-</button>
+    <button id="save">
+      <span>Save Settings</span>
+      <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 13l4 4L19 7" />
+      </svg>
+    </button>
+  </div>
 
   <script src="popup.js"></script>
-
 </body>
 </html>
