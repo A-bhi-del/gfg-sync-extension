@@ -1,195 +1,16 @@
-// chrome.runtime.onMessage.addListener(
-//   async (message) => {
-//     if (message.type !== "SAVE_PROBLEM") {
-//       return;
-//     }
-
-//     try {
-//       const problem = message.payload;
-
-//       const config = await chrome.storage.local.get([
-//         "githubToken",
-//         "repoOwner",
-//         "repoName",
-//       ]);
-
-//       const {
-//         githubToken,
-//         repoOwner,
-//         repoName,
-//       } = config;
-
-//       console.log("CONFIG:", {
-//         repoOwner,
-//         repoName,
-//         hasToken: !!githubToken,
-//       });
-
-//       if (
-//         !githubToken ||
-//         !repoOwner ||
-//         !repoName
-//       ) {
-//         console.error(
-//           "❌ GitHub configuration missing"
-//         );
-//         return;
-//       }
-
-//       const safeTitle =
-//         problem.title.replace(
-//           /[<>:"/\\|?*]/g,
-//           ""
-//         );
-
-//       const filePath =
-//         `${safeTitle}/solution.cpp`;
-
-//       const encodedContent =
-//         btoa(
-//           unescape(
-//             encodeURIComponent(
-//               problem.code
-//             )
-//           )
-//         );
-
-//       const repoUrl =
-//         `https://api.github.com/repos/${repoOwner}/${repoName}`;
-
-//       const url =
-//         `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-
-//       console.log("REPO URL:", repoUrl);
-//       console.log("FILE URL:", url);
-
-//       // Check Repo Access
-//       const repoCheck =
-//         await fetch(repoUrl, {
-//           headers: {
-//             Authorization:
-//               `Bearer ${githubToken}`,
-//             Accept:
-//               "application/vnd.github+json",
-//           },
-//         });
-
-//       console.log(
-//         "REPO CHECK STATUS:",
-//         repoCheck.status
-//       );
-
-//       const repoData =
-//         await repoCheck.json();
-
-//       console.log(
-//         "REPO RESPONSE:",
-//         repoData
-//       );
-
-//       if (!repoCheck.ok) {
-//         console.error(
-//           "❌ Repo not accessible"
-//         );
-//         return;
-//       }
-
-//       // Check Existing File
-//       let sha = null;
-
-//       const existingFile =
-//         await fetch(url, {
-//           headers: {
-//             Authorization:
-//               `Bearer ${githubToken}`,
-//             Accept:
-//               "application/vnd.github+json",
-//           },
-//         });
-
-//       console.log(
-//         "FILE CHECK STATUS:",
-//         existingFile.status
-//       );
-
-//       if (existingFile.ok) {
-//         const existingData =
-//           await existingFile.json();
-
-//         sha = existingData.sha;
-
-//         console.log(
-//           "EXISTING FILE SHA:",
-//           sha
-//         );
-//       }
-
-//       const response =
-//         await fetch(url, {
-//           method: "PUT",
-//           headers: {
-//             Authorization:
-//               `Bearer ${githubToken}`,
-//             Accept:
-//               "application/vnd.github+json",
-//             "Content-Type":
-//               "application/json",
-//           },
-//           body: JSON.stringify({
-//             message:
-//               `Add ${problem.title}`,
-//             content:
-//               encodedContent,
-//             ...(sha && { sha }),
-//           }),
-//         });
-
-//       console.log(
-//         "PUT STATUS:",
-//         response.status
-//       );
-
-//       const result =
-//         await response.json();
-
-//       console.log(
-//         "GITHUB RESPONSE:"
-//       );
-
-//       console.log(result);
-
-//       if (response.ok) {
-//         console.log(
-//           "✅ GitHub Push Success"
-//         );
-//       } else {
-//         console.error(
-//           "❌ GitHub Push Failed"
-//         );
-//       }
-
-//     } catch (error) {
-//       console.error(
-//         "❌ Push Error:",
-//         error
-//       );
-//     }
-//   }
-// );
-
 chrome.runtime.onInstalled.addListener(() => {
-  chrome.tabs.query(
-    {
-      url: "*://*.geeksforgeeks.org/*",
-    },
-    (tabs) => {
-      tabs.forEach((tab) => {
-        if (tab.id) {
-          chrome.tabs.reload(tab.id);
+    chrome.tabs.query(
+        {
+            url: "*://*.geeksforgeeks.org/*",
+        },
+        (tabs) => {
+            tabs.forEach((tab) => {
+                if (tab.id) {
+                    chrome.tabs.reload(tab.id);
+                }
+            });
         }
-      });
-    }
-  );
+    );
 });
 
 chrome.runtime.onMessage.addListener(
@@ -240,7 +61,7 @@ chrome.runtime.onMessage.addListener(
             // ==========================
 
             const filePath =
-                `${safeTitle}/solution.cpp`;
+                `${safeTitle}/solution.${problem.extension}`;
 
             const fileUrl =
                 `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
@@ -327,22 +148,63 @@ chrome.runtime.onMessage.addListener(
             // PUSH README.MD
             // ==========================
 
-            const readmeContent = `# ${problem.title}
+            const tagsMarkdown = problem.tags?.length
+                ? problem.tags.map((tag) => `\`${tag}\``).join(" ")
+                : "_None available_";
 
-## Problem Link
+            const difficultyEmoji = {
+                Easy: "🟢",
+                Medium: "🟡",
+                Hard: "🔴",
+            };
 
-${problem.url}
+            const difficultyColor = {
+                Easy: "success",      // Green
+                Medium: "important",    // Orange
+                Hard: "critical",     // Red
+            };
 
-## Problem Statement
+            const diff = problem.difficulty || "Unknown";
+            const emoji = difficultyEmoji[diff] || "⚪";
+            const color = difficultyColor[diff] || "informational";
 
-${problem.questionText}
+            // Dynamic Premium Badge generation
+            const difficultyBadge = `![${diff}](https://img.shields.io/badge/${diff}-${color}?style=for-the-badge&logoColor=white)`;
+
+            const readmeContent = `# 🚀 ${problem.title}
 
 ---
 
-## Solution
+### 📊 Quick Overview
 
-See \`solution.cpp\`
-`;
+| Metadata | Details |
+| :--- | :--- |
+| **Difficulty** | ${emoji} ${difficultyBadge} |
+| **Language** | \`${problem.language}\` |
+| **Problem Link** | [🔗 Challenge Link](${problem.url}) |
+
+---
+
+### 📝 Problem Statement
+
+${problem.questionText.trim()}
+
+---
+
+### 🏢 Topic Tags
+
+> ${tagsMarkdown}
+
+---
+
+### 💡 Solution Approach
+
+The complete execution code can be found in the solution file. It uses an optimized approach to solve the problem efficiently.
+
+👉 **View Solution:** [\`solution.${problem.extension}\`](./solution.${problem.extension})
+
+---
+<sub>*Automated repository update.*</sub>`.trim();
 
             const readmePath =
                 `${safeTitle}/README.md`;
